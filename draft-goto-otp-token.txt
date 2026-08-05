@@ -1,0 +1,312 @@
+
+
+
+
+WG Working Group                                                 S. Goto
+Internet-Draft                                                   M. West
+Intended status: Informational                                    Google
+Expires: 6 February 2027                                   5 August 2026
+
+
+                   The `OTP-Token` Email Header Field
+                      draft-goto-otp-token-latest
+
+Abstract
+
+   This document defines the OTP-Token email header field, which can be
+   used to deliver One-Time Passcodes (OTP) in a machine-readable and
+   origin-bound manner.  This header can enable Recipient Message User
+   Agents (rMUA) to collaborate with other entities in the ecosystem to
+   assist users' need to convey these OTPs to various parties that rely
+   on their successful delivery.
+
+About This Document
+
+   This note is to be removed before publishing as an RFC.
+
+   The latest revision of this draft can be found at
+   https://example.com/LATEST.  Status information for this document may
+   be found at https://datatracker.ietf.org/doc/draft-goto-otp-token/.
+
+   Discussion of this document takes place on the WG Working Group
+   mailing list (mailto:WG@example.com), which is archived at
+   https://example.com/WG.
+
+   Source for this draft and an issue tracker can be found at
+   https://github.com/USER/REPO.
+
+Status of This Memo
+
+   This Internet-Draft is submitted in full conformance with the
+   provisions of BCP 78 and BCP 79.
+
+   Internet-Drafts are working documents of the Internet Engineering
+   Task Force (IETF).  Note that other groups may also distribute
+   working documents as Internet-Drafts.  The list of current Internet-
+   Drafts is at https://datatracker.ietf.org/drafts/current/.
+
+   Internet-Drafts are draft documents valid for a maximum of six months
+   and may be updated, replaced, or obsoleted by other documents at any
+   time.  It is inappropriate to use Internet-Drafts as reference
+   material or to cite them other than as "work in progress."
+
+   This Internet-Draft will expire on 6 February 2027.
+
+Copyright Notice
+
+   Copyright (c) 2026 IETF Trust and the persons identified as the
+   document authors.  All rights reserved.
+
+   This document is subject to BCP 78 and the IETF Trust's Legal
+   Provisions Relating to IETF Documents (https://trustee.ietf.org/
+   license-info) in effect on the date of publication of this document.
+   Please review these documents carefully, as they describe your rights
+   and restrictions with respect to this document.  Code Components
+   extracted from this document must include Revised BSD License text as
+   described in Section 4.e of the Trust Legal Provisions and are
+   provided without warranty as described in the Revised BSD License.
+
+Table of Contents
+
+   1.  Introduction
+     1.1.  Examples
+   2.  Conventions and Definitions
+   3.  The OTP-Token Header Field
+     3.1.  Parameters
+     3.2.  Parsing
+     3.3.  Syntax
+   4.  Security Considerations
+   5.  IANA Considerations
+   6.  References
+     6.1.  Normative References
+     6.2.  Informative References
+   Acknowledgments
+   Authors' Addresses
+
+1.  Introduction
+
+   The mechanism defined in this document allows the mechanical
+   processing of email-based OTPs that are common in the ecosystem
+   today.  This opens up a number of opportunities for collaboration in
+   ways which might improve the overall security of this verification
+   mechanism.
+
+   Today, the expectation is that users will begin some action which
+   requires verification (sign in, account creation, some high-risk
+   transaction, etc) in one context, and then hop over to their email
+   client, wait for receipt of an email containing an memorizable OTP,
+   then hop back to the original context and input that code to verify
+   the action.  This is both frustrating and phishable, as hopping
+   between contexts introduces many opportunities for confusion,
+   memorizing or copy/pasting codes is difficult, and nothing prevents
+   users from delivering codes to the wrong context.
+
+   [SMS-ONE-TIME-CODES] showed that it's possible to devise a machine-
+   readable format for SMS-based OTPs that can express a clear origin
+   binding, making it possible for automated systems to extract these
+   codes and feed them into systems which can help users input them into
+   the right context.
+
+   This document extends that concept from SMS to email, taking
+   advantage of the fact that an email-based delivery mechanism has both
+   user-visible content and headers that are often somewhat complicated
+   for users to access.  The former can be used in exactly the way that
+   it's used today, crafting a message for humans that aims to help them
+   verify themselves.  The latter can feed information to autofill
+   systems that can directly support users' efforts to do so, while also
+   encoding additional information that users would have a hard time
+   dealing with.  The additional information can help support risk-based
+   evaluation systems in ways we'll discuss below.
+
+1.1.  Examples
+
+   A typical email-based OTP message could contain the following header,
+   specifying an OTP code of 123456, and binding that code to the origin
+   https://example.com. rMUAs can collaborate with other user agents to
+   pass that code on in ways that can smooth the users' path towards
+   verification:
+
+   OTP-Token: "123456"; origin="https://example.com"
+
+   Beyond the traditional OTP, which is suprisingly phishable, this
+   mechanism could also include an additional token, meant not for the
+   user themselves, but for the systems which input the OTP code on
+   their behalf.  Given that this token is delivered out-of-band with
+   the visible email content, it can be reasonable assumed to be
+   available only when an automated system acting on the users' behalf
+   has delivered the OTP.  This could enable differential risk
+   assessments to assign more granular levels of trust to user
+   verifications:
+
+   OTP-Token: "123456"; origin="https://example.com"; \
+              token=:SGVsbG8sIHdvcmxkIQ==:
+
+2.  Conventions and Definitions
+
+   The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
+   "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED", "MAY", and
+   "OPTIONAL" in this document are to be interpreted as described in
+   BCP 14 [RFC2119] [RFC8174] when, and only when, they appear in all
+   capitals, as shown here.
+
+   This document relies on [RFC5598] to define Recpient Mail User Agents
+   (rMUA) and other aspects of email infrastructure.
+
+   This document further relies on Section 3 of [STRUCTURED-FIELDS] to
+   define a number of concepts around parsing and syntax, including:
+   String, Byte Sequence, Parameters, and the sf-item ABNF rule.
+
+   The serialized-origin grammar is defined in Section 7.1 of [RFC6454].
+
+3.  The OTP-Token Header Field
+
+   The OTP-Token header field delivers an origin-bound OTP, optionally
+   including a high-entropy token.  For example:
+
+   OTP-Token: "123456"; origin="https://example.com"; token=:SGVsbG8sIHdvcmxkIQ==:
+
+   This header is a Structured Field containing a String (Section 3.3.3
+   of [STRUCTURED-FIELDS]) representing the OTP, along with with
+   Parameters (Section 3.1.2 of [STRUCTURED-FIELDS]) representing the
+   origin to which the OTP is bound, and an optional high-entropy token.
+
+3.1.  Parameters
+
+   The OTP-Token header MUST contain an origin Parameter, and MAY
+   contain a token Parameter:
+
+   *  origin: This parameter represents the origin to which the OTP is
+      bound.  Its value is a String containing the ASCII serialization
+      of an origin conforming to Section 6.2 of [RFC6454].
+
+   *  token: This parameter represents a validation token associated
+      with the OTP that's meant for automated systems rather than human
+      interaction.  Its value is a Byte Sequence .
+
+   Unknown Parameters are ignored in order to make future expansion
+   possible if necessary.
+
+3.2.  Parsing
+
+   OTPs are a tuple consisting of an otp (a string), an origin (a
+   string), and an optional token (null or a byte sequence).
+
+   The following algorithm describes the process of parsing and
+   validating the OTP-Token header into an OTP object, given the header
+   section of a message.  Parsing fails if no valid OTP is available:
+
+   1.  If the header section contains more than one OTP-Token header, or
+       does not contain any OTP-Token header, fail parsing.
+
+   2.  Let parsed be the result of parsing the header section's OTP-
+       Token header as specified in Section 4.2 of [STRUCTURED-FIELDS],
+       using the field's value as input_bytes, and a field_type of
+       "item".
+
+   3.  If parsing fails, fail parsing.
+
+   4.  If parsed's bare_item is not a String, fail parsing.
+
+   5.  Fail parsing if parsed's parameters:
+
+       *  contains no item whose key is origin
+
+       *  contains an item whose key is token and whose value is not a
+          Byte Sequence,
+
+       *  contains an item whose key is origin and whose value is not a
+          String conforming to the serialized-origin grammar defined in
+          Section 7.1 of [RFC6454]
+
+   6.  Let result be a new OTP whose:
+
+       *  otp is parsed's bare_item
+
+       *  origin is the value of the item in parsed's parameters whose
+          key is origin
+
+       *  token is the value of the item in parsed's parameters whose
+          key is token, or null if no such item is present.
+
+   7.  Return result.
+
+3.3.  Syntax
+
+   The header's ABNF is as follows:
+
+   otp-token = sf-item
+
+4.  Security Considerations
+
+   TODO.  Probably something about DKIM?
+
+5.  IANA Considerations
+
+   IANA is asked to update the Provisional Message Header Field Names
+   registry [RFC5322] with the following entry:
+
+   *  Header Field Name: OTP-Token
+
+   *  Template:
+
+   *  Protocol: mail
+
+   *  Status:
+
+   *  Trace:
+
+   *  Reference: This document
+
+6.  References
+
+6.1.  Normative References
+
+   [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
+              Requirement Levels", BCP 14, RFC 2119,
+              DOI 10.17487/RFC2119, March 1997,
+              <https://www.rfc-editor.org/rfc/rfc2119>.
+
+   [RFC5322]  Resnick, P., Ed., "Internet Message Format", RFC 5322,
+              DOI 10.17487/RFC5322, October 2008,
+              <https://www.rfc-editor.org/rfc/rfc5322>.
+
+   [RFC5598]  Crocker, D., "Internet Mail Architecture", RFC 5598,
+              DOI 10.17487/RFC5598, July 2009,
+              <https://www.rfc-editor.org/rfc/rfc5598>.
+
+   [RFC6454]  Barth, A., "The Web Origin Concept", RFC 6454,
+              DOI 10.17487/RFC6454, December 2011,
+              <https://www.rfc-editor.org/rfc/rfc6454>.
+
+   [RFC8174]  Leiba, B., "Ambiguity of Uppercase vs Lowercase in RFC
+              2119 Key Words", BCP 14, RFC 8174, DOI 10.17487/RFC8174,
+              May 2017, <https://www.rfc-editor.org/rfc/rfc8174>.
+
+   [STRUCTURED-FIELDS]
+              Nottingham, M. and P. Kamp, "Structured Field Values for
+              HTTP", RFC 9651, DOI 10.17487/RFC9651, September 2024,
+              <https://www.rfc-editor.org/rfc/rfc9651>.
+
+6.2.  Informative References
+
+   [SMS-ONE-TIME-CODES]
+              O'Connor, T. and S. Goto, "Origin-bound one-time codes
+              delivered via SMS", 2021,
+              <https://wicg.github.io/sms-one-time-codes/>.
+
+Acknowledgments
+
+   This can be considered an email-based implementation of
+   [SMS-ONE-TIME-CODES], which paved the way to formalizing a machine-
+   readable format for these short-lived verification codes.
+
+Authors' Addresses
+
+   Sam Goto
+   Google
+   Email: goto@google.com
+
+
+   Mike West
+   Google
+   Email: mkwst@google.com
