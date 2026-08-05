@@ -9,19 +9,19 @@ number:
 date:
 consensus: true
 v: 3
-area: AREA
-workgroup: WG Working Group
+area: "Security"
+workgroup: "One Time Password Authentication"
 keyword:
  - next generation
  - unicorn
  - AI-native
 venue:
-  group: WG
-  type: Working Group
-  mail: WG@example.com
-  arch: https://example.com/WG
-  github: USER/REPO
-  latest: https://example.com/LATEST
+  group: "One Time Password Authentication"
+  type: "Working Group"
+  mail: "ietf-otp@research.telcordia.com"
+  arch: "ftp://ftp.research.telcordia.com/pub/ietf-otp/archive"
+  github: "mikewest/otp-token"
+  latest: "https://mikewest.github.io/otp-token/draft-goto-otp-token.html"
 
 author:
  -
