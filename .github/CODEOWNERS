@@ -1,0 +1,3 @@
+# Automatically generated CODEOWNERS
+# Regenerate with `make update-codeowners`
+draft-goto-otp-token.md goto@google.com mkwst@google.com
