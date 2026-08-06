@@ -328,19 +328,19 @@ Table of Contents
 5.  IANA Considerations
 
    IANA is asked to update the Provisional Message Header Field Names
-   registry [RFC5322] with the following entry:
+   registry [RFC3864] with the following entry:
 
    *  Header Field Name: OTP-Token
 
-   *  Template:
-
    *  Protocol: mail
 
-   *  Status:
+   *  Status: provisional
 
-   *  Trace:
+   *  Author/Change controller: Mike West
 
    *  Reference: This document
+
+   *  Related information: None
 
 6.  Open Questions
 
@@ -366,6 +366,11 @@ Table of Contents
               Requirement Levels", BCP 14, RFC 2119,
               DOI 10.17487/RFC2119, March 1997,
               <https://www.rfc-editor.org/rfc/rfc2119>.
+
+   [RFC3864]  Klyne, G., Nottingham, M., and J. Mogul, "Registration
+              Procedures for Message Header Fields", BCP 90, RFC 3864,
+              DOI 10.17487/RFC3864, September 2004,
+              <https://www.rfc-editor.org/rfc/rfc3864>.
 
    [RFC5322]  Resnick, P., Ed., "Internet Message Format", RFC 5322,
               DOI 10.17487/RFC5322, October 2008,
