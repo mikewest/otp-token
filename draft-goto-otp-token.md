@@ -32,6 +32,7 @@ author:
     email: mkwst@google.com
 
 normative:
+  RFC3864:
   RFC5322:
   RFC5598:
   RFC6454:
