@@ -2,10 +2,10 @@
 
 
 
-WG Working Group                                                 S. Goto
+One Time Password Authentication                                 S. Goto
 Internet-Draft                                                   M. West
-Intended status: Informational                                    Google
-Expires: 6 February 2027                                   5 August 2026
+Intended status: Standards Track                                  Google
+Expires: 7 February 2027                                   6 August 2026
 
 
                    The `OTP-Token` Email Header Field
@@ -15,25 +15,23 @@ Abstract
 
    This document defines the OTP-Token email header field, which can be
    used to deliver One-Time Passcodes (OTP) in a machine-readable and
-   origin-bound manner.  This header can enable Recipient Message User
-   Agents (rMUA) to collaborate with other entities in the ecosystem to
-   assist users' need to convey these OTPs to various parties that rely
-   on their successful delivery.
+   origin-bound manner alongside the human-readable message carrying
+   that content today.  Recipient Message User Agents (rMUA) can
+   collaborate with other entities in the ecosystem to assist in the
+   delivery of these codes to the context which wishes to verify their
+   successful delivery.
 
 About This Document
 
    This note is to be removed before publishing as an RFC.
 
    The latest revision of this draft can be found at
-   https://example.com/LATEST.  Status information for this document may
-   be found at https://datatracker.ietf.org/doc/draft-goto-otp-token/.
-
-   Discussion of this document takes place on the WG Working Group
-   mailing list (mailto:WG@example.com), which is archived at
-   https://example.com/WG.
+   https://mikewest.github.io/otp-token/draft-goto-otp-token.html.
+   Status information for this document may be found at
+   https://datatracker.ietf.org/doc/draft-goto-otp-token/.
 
    Source for this draft and an issue tracker can be found at
-   https://github.com/USER/REPO.
+   https://github.com/mikewest/otp-token.
 
 Status of This Memo
 
@@ -50,7 +48,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 6 February 2027.
+   This Internet-Draft will expire on 7 February 2027.
 
 Copyright Notice
 
@@ -71,75 +69,89 @@ Table of Contents
    1.  Introduction
      1.1.  Examples
    2.  Conventions and Definitions
+     2.1.  One-Time Passcode
    3.  The OTP-Token Header Field
      3.1.  Parameters
      3.2.  Parsing
      3.3.  Syntax
    4.  Security Considerations
+     4.1.  token Availability?
+     4.2.  Shouldn't we focus on more robustly phishing-resistant
+           authentication?
    5.  IANA Considerations
-   6.  References
-     6.1.  Normative References
-     6.2.  Informative References
+   6.  Open Questions
+   7.  References
+     7.1.  Normative References
+     7.2.  Informative References
    Acknowledgments
    Authors' Addresses
 
 1.  Introduction
 
-   The mechanism defined in this document allows the mechanical
-   processing of email-based OTPs that are common in the ecosystem
-   today.  This opens up a number of opportunities for collaboration in
-   ways which might improve the overall security of this verification
-   mechanism.
+   Email-based OTPs are critical infrastructure in the status quo.
+   They're used for address verification, sign-in, authorization of
+   high-risk transactions, and account recovery.  They often sit
+   underneath more robust verification mechanisms, setting a relatively
+   low security floor.
 
-   Today, the expectation is that users will begin some action which
-   requires verification (sign in, account creation, some high-risk
-   transaction, etc) in one context, and then hop over to their email
-   client, wait for receipt of an email containing an memorizable OTP,
-   then hop back to the original context and input that code to verify
-   the action.  This is both frustrating and phishable, as hopping
-   between contexts introduces many opportunities for confusion,
-   memorizing or copy/pasting codes is difficult, and nothing prevents
-   users from delivering codes to the wrong context.
+   Today, actions which require verification through email will begin in
+   one context, then hop to an email client, where users will track down
+   the relevant email (after waiting for delivery), memorize a short
+   code, hop back to the verifying context, and type it in.  This flow
+   is both frustrating and phishable.
 
-   [SMS-ONE-TIME-CODES] showed that it's possible to devise a machine-
-   readable format for SMS-based OTPs that can express a clear origin
-   binding, making it possible for automated systems to extract these
-   codes and feed them into systems which can help users input them into
-   the right context.
+   [SMS-ONE-TIME-CODES] showed that a machine-readable, origin-bound
+   format for SMS-based OTPs is deployable.  Today, software can easily
+   extract these codes and feed them into systems like [WEBOTP] which
+   reduce friction only after validating the origin binding.
 
-   This document extends that concept from SMS to email, taking
+   This document extends that concept from SMS to email, and takes
    advantage of the fact that an email-based delivery mechanism has both
-   user-visible content and headers that are often somewhat complicated
-   for users to access.  The former can be used in exactly the way that
-   it's used today, crafting a message for humans that aims to help them
-   verify themselves.  The latter can feed information to autofill
-   systems that can directly support users' efforts to do so, while also
-   encoding additional information that users would have a hard time
-   dealing with.  The additional information can help support risk-based
-   evaluation systems in ways we'll discuss below.
+   user-visible content and a header section that's cumbersome for
+   humans to access.  The former can carry on doing what it does today:
+   delivering a low-entropy code addressed to humans.  The latter can
+   carry information beyond what would be reasonable to expect a human
+   to handle, which we can use to increase the entire system's
+   robustness.
+
+   This machine-readable format enables three improvements:
+
+   1.  We can reduce friction for users by allowing rMUAs to collaborate
+       with other systems, offering OTPs to the requesting context
+       without requiring users to act as the messenger.
+
+   2.  We can mitigate phishing by reducing friction _only_ for context
+       matching the origin to which the OTP is bound.  Software can
+       perform this check more consistently than humans.
+
+   3.  We can provide an additional signal about the way in which the
+       OTP was delivered by encoding information in the header that
+       humans are unlikely to process themselves.  Relying parties can
+       thereby distinguish codes transmitted through an origin-bound
+       automated path from those which a user might have been tricked
+       into typing into an attackers' form, enabling more nuanced risk
+       assessment.
+
+   This document defines a format and parsing rules.  Work to define the
+   interaction between rMUAs and the rest of the ecosystem will happen
+   elsewhere.
 
 1.1.  Examples
 
    A typical email-based OTP message could contain the following header,
    specifying an OTP code of 123456, and binding that code to the origin
-   https://example.com. rMUAs can collaborate with other user agents to
-   pass that code on in ways that can smooth the users' path towards
-   verification:
+   https://example.com:
 
    OTP-Token: "123456"; origin="https://example.com"
 
-   Beyond the traditional OTP, which is suprisingly phishable, this
-   mechanism could also include an additional token, meant not for the
-   user themselves, but for the systems which input the OTP code on
-   their behalf.  Given that this token is delivered out-of-band with
-   the visible email content, it can be reasonable assumed to be
-   available only when an automated system acting on the users' behalf
-   has delivered the OTP.  This could enable differential risk
-   assessments to assign more granular levels of trust to user
-   verifications:
+   Beyond that human-readable-and-therefore-phishable code, the header
+   can also include an additional token, meant not for the user
+   themselves, but for the systems acting on their behalf.  Because
+   headers are not generally rendered to users without effort,
+   presenting this token is (imperfect) evidence that an automated
+   system delivered the data, enabling more nuanced risk assessment:
 
-   OTP-Token: "123456"; origin="https://example.com"; \
-              token=:SGVsbG8sIHdvcmxkIQ==:
+   OTP-Token: "123456"; origin="https://example.com"; token=:NjU0MzIx:
 
 2.  Conventions and Definitions
 
@@ -156,19 +168,43 @@ Table of Contents
    define a number of concepts around parsing and syntax, including:
    String, Byte Sequence, Parameters, and the sf-item ABNF rule.
 
-   The serialized-origin grammar is defined in Section 7.1 of [RFC6454].
+   This document relies on [RFC6454] for the definition of an origin,
+   and on Section 6.2 of that document for its ASCII serialization.  The
+   serialized-origin grammar is defined in Section 7.1.
+
+2.1.  One-Time Passcode
+
+   A One-Time Passcode is a tuple consisting of:
+
+   *  code: a string, containing the human-readable OTP.
+
+   *  origin: an origin to which the code is bound.
+
+   *  token: null or a byte sequence carrying a machine-readable value
+      intended for automated consumption.
+
+   *  received: a timestamp set by the rMUA when the OTP is received.
 
 3.  The OTP-Token Header Field
 
    The OTP-Token header field delivers an origin-bound OTP, optionally
    including a high-entropy token.  For example:
 
-   OTP-Token: "123456"; origin="https://example.com"; token=:SGVsbG8sIHdvcmxkIQ==:
+   OTP-Token: "123456"; origin="https://example.com"; token=:NjU0MzIx:
 
    This header is a Structured Field containing a String (Section 3.3.3
    of [STRUCTURED-FIELDS]) representing the OTP, along with with
    Parameters (Section 3.1.2 of [STRUCTURED-FIELDS]) representing the
    origin to which the OTP is bound, and an optional high-entropy token.
+
+   OTP-Token MUST appear at most once in a message's header section.
+   Instances appearing in the header sections of MIME body parts MUST be
+   ignored.
+
+   Note that headers including a token Parameter are likely to exceed
+   the 998/78 character limitations specified in Section 2.2.3 of
+   [RFC5322], and will be folded accordingly.  Section 3.2 specifies how
+   that common case is to be handled.
 
 3.1.  Parameters
 
@@ -177,7 +213,16 @@ Table of Contents
 
    *  origin: This parameter represents the origin to which the OTP is
       bound.  Its value is a String containing the ASCII serialization
-      of an origin conforming to Section 6.2 of [RFC6454].
+      of an origin conforming to Section 6.2 of [RFC6454].  This value
+      MUST not be the serialization of an opaque origin ("null"), MUST
+      be a potentially trustworthy origin as defined in
+      [SECURE-CONTEXTS], and MUST be in canonical form (lowercase,
+      default ports omitted, ASCII-only).
+
+      Note: [RFC6454] and [URL]/[HTML] do not entirely agree on origins
+      or their serialization.  The constraints above keep them more or
+      less aligned for the subset of origins this document permits;
+      reconciliation beyond that is well outside this document's scope.
 
    *  token: This parameter represents a validation token associated
       with the OTP that's meant for automated systems rather than human
@@ -188,47 +233,61 @@ Table of Contents
 
 3.2.  Parsing
 
-   OTPs are a tuple consisting of an otp (a string), an origin (a
-   string), and an optional token (null or a byte sequence).
-
    The following algorithm describes the process of parsing and
-   validating the OTP-Token header into an OTP object, given the header
-   section of a message.  Parsing fails if no valid OTP is available:
+   validating the OTP-Token header into an One-Time Passcode object,
+   given a message and receipt-timestamp.  Parsing fails if no valid OTP
+   is available:
 
-   1.  If the header section contains more than one OTP-Token header, or
-       does not contain any OTP-Token header, fail parsing.
+   1.   If message's header section contains zero or more than one OTP-
+        Token header, fail.
 
-   2.  Let parsed be the result of parsing the header section's OTP-
-       Token header as specified in Section 4.2 of [STRUCTURED-FIELDS],
-       using the field's value as input_bytes, and a field_type of
-       "item".
+   2.   Let value be the result of unfolding message's header section's
+        OTP-Token header as specified in Section 2.2.3 of [RFC5322].
 
-   3.  If parsing fails, fail parsing.
+   3.   Let parsed be the result of parsing value as specified in
+        Section 4.2 of [STRUCTURED-FIELDS], with a field_type of "item".
+        If parsing value as a Structured Field fails, fail.
 
-   4.  If parsed's bare_item is not a String, fail parsing.
+   4.   If parsed's bare_item is not a String, fail.
 
-   5.  Fail parsing if parsed's parameters:
+   5.   If parsed's parameters contains no item whose key is "origin",
+        fail.
 
-       *  contains no item whose key is origin
+   6.   Let origin be the value of parsed's parameters' item whose key
+        is "origin".
 
-       *  contains an item whose key is token and whose value is not a
-          Byte Sequence,
+   7.   Fail if any of the following conditions are true:
 
-       *  contains an item whose key is origin and whose value is not a
-          String conforming to the serialized-origin grammar defined in
-          Section 7.1 of [RFC6454]
+        *  origin is not a String
 
-   6.  Let result be a new OTP whose:
+        *  origin does not conform to the serialized-origin grammar
+           defined in Section 7.1 of [RFC6454].
 
-       *  otp is parsed's bare_item
+        *  origin is "null"
 
-       *  origin is the value of the item in parsed's parameters whose
-          key is origin
+        *  origin is not canonical, per Section 3.1.
 
-       *  token is the value of the item in parsed's parameters whose
-          key is token, or null if no such item is present.
+   8.   Let token be null.
 
-   7.  Return result.
+   9.   If parsed's parameters contains an item whose key is "token":
+
+        1.  Fail if its value is not a Byte Sequence.
+
+        2.  Set token to its value.
+
+   10.  Return a new One-Time Passcode whose:
+
+        *  code is parsed's bare_item
+
+        *  origin is origin
+
+        *  token is token
+
+        *  received is receipt-timestamp
+
+   Note: [STRUCTURED-FIELDS] has no concept of header folding.  The
+   ordering of steps 2 and 3 above is therefore necessary to enable
+   proper parsing of message headers.
 
 3.3.  Syntax
 
@@ -239,6 +298,32 @@ Table of Contents
 4.  Security Considerations
 
    TODO.  Probably something about DKIM?
+
+4.1.  token Availability?
+
+   The token value is a bearer token.  Its usefulness rests entirely
+   upon its general invisibility to humans, meaning that a user tricked
+   into inputing an OTP will not be able to easily hand it over.
+
+   While this seems accurate, it is not impossible to overcome.  Users
+   could be socially engineered into accessing the message headers via
+   an rMUA's "show original" affordance.  Or they could be convinced to
+   forward the email to an attacker, headers and all.  Likewise, the
+   token is only as secure as the mailbox itself.
+
+   In short, token can raise the bar for an attacker, but it does not
+   absolutely prevent phishing.
+
+4.2.  Shouldn't we focus on more robustly phishing-resistant
+      authentication?
+
+   Authentication mechanisms like federation and [WEBAUTHN] are clearly
+   the directions in which the ecosystem should move.  Improvements to
+   OTP delivery are not arguments in the other direction.  Still, it's
+   important to recognize that email verification often serves as a
+   last-resort fallback mechanism for account recovery.  This document's
+   proposal aims only to create low-cost opportunities to mitigate some
+   of that validation path's inherent risks.
 
 5.  IANA Considerations
 
@@ -257,9 +342,25 @@ Table of Contents
 
    *  Reference: This document
 
-6.  References
+6.  Open Questions
 
-6.1.  Normative References
+   1.  Is specifying a single origin enough?  Do we need scoping rules
+       to tie OTPs to multiple origins?  Sites rather than origins?
+
+   2.  Rather than relying on the relying party to examine the received
+       timestamp, should we offer a ttl/expires Parameter after which
+       the automated system would refuse to offer the OTP?
+
+   3.  Should we try to create tighter checks for the OTP's specified
+       origin?  That is, should we only accept origin bindings that can
+       be authenticated via DKIM/DMARC?
+
+   And, of course, we should bikeshed the naming.  OTP-Token, One-Time-
+   Passcode, Super-Secret-Thing-That-Humans-Should-Not-Read, etc.
+
+7.  References
+
+7.1.  Normative References
 
    [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
               Requirement Levels", BCP 14, RFC 2119,
@@ -282,17 +383,30 @@ Table of Contents
               2119 Key Words", BCP 14, RFC 8174, DOI 10.17487/RFC8174,
               May 2017, <https://www.rfc-editor.org/rfc/rfc8174>.
 
+   [SECURE-CONTEXTS]
+              West, M., "Secure Contexts",
+              <https://w3c.github.io/webappsec-secure-contexts/>.
+
    [STRUCTURED-FIELDS]
               Nottingham, M. and P. Kamp, "Structured Field Values for
               HTTP", RFC 9651, DOI 10.17487/RFC9651, September 2024,
               <https://www.rfc-editor.org/rfc/rfc9651>.
 
-6.2.  Informative References
+   [WEBAUTHN] "Web Authentication: An API for accessing Public Key
+              Credentials", <https://w3c.github.io/webauthn/>.
+
+7.2.  Informative References
+
+   [HTML]     "HTML Standard", <https://html.spec.whatwg.org/>.
 
    [SMS-ONE-TIME-CODES]
               O'Connor, T. and S. Goto, "Origin-bound one-time codes
               delivered via SMS", 2021,
               <https://wicg.github.io/sms-one-time-codes/>.
+
+   [URL]      "URL Standard", <https://url.spec.whatwg.org/>.
+
+   [WEBOTP]   Goto, S., "WebOTP API", <https://wicg.github.io/web-otp/>.
 
 Acknowledgments
 

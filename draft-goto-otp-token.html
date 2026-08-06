@@ -9,14 +9,17 @@
 <meta content="Mike West" name="author">
 <meta content="
        This document defines the  OTP-Token  email header field, which can be used to deliver One-Time
-Passcodes (OTP) in a machine-readable and origin-bound manner. This header can enable Recipient
-Message User Agents (rMUA) to collaborate with other entities in the ecosystem to assist users'
-need to convey these OTPs to various parties that rely on their successful delivery. 
+Passcodes (OTP) in a machine-readable and origin-bound manner alongside the human-readable message
+carrying that content today. Recipient Message User Agents (rMUA) can collaborate with other
+entities in the ecosystem to assist in the delivery of these codes to the context which wishes to
+verify their successful delivery. 
     " name="description">
 <meta content="xml2rfc 3.34.0" name="generator">
-<meta content="next generation" name="keyword">
-<meta content="unicorn" name="keyword">
-<meta content="AI-native" name="keyword">
+<meta content="one-time passcode" name="keyword">
+<meta content="otp" name="keyword">
+<meta content="email" name="keyword">
+<meta content="phishing" name="keyword">
+<meta content="autofill" name="keyword">
 <meta content="draft-goto-otp-token-latest" name="ietf.draft">
 <!-- Generator version information:
   xml2rfc 3.34.0
@@ -1051,7 +1054,7 @@ svg {
 </tr></thead>
 <tfoot><tr>
 <td class="left">Goto &amp; West</td>
-<td class="center">Expires 6 February 2027</td>
+<td class="center">Expires 7 February 2027</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1059,17 +1062,17 @@ svg {
 <div id="internal-metadata" class="document-information">
 <dl id="identifiers">
 <dt class="label-workgroup">Workgroup:</dt>
-<dd class="workgroup">WG Working Group</dd>
+<dd class="workgroup">One Time Password Authentication</dd>
 <dt class="label-internet-draft">Internet-Draft:</dt>
 <dd class="internet-draft">draft-goto-otp-token-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2026-08-05" class="published">5 August 2026</time>
+<time datetime="2026-08-06" class="published">6 August 2026</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
-<dd class="intended-status">Informational</dd>
+<dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2027-02-06">6 February 2027</time></dd>
+<dd class="expires"><time datetime="2027-02-07">7 February 2027</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1087,9 +1090,10 @@ svg {
 <section id="section-abstract">
       <h2 id="abstract"><a href="#abstract" class="selfRef">Abstract</a></h2>
 <p id="section-abstract-1">This document defines the <code>OTP-Token</code> email header field, which can be used to deliver One-Time
-Passcodes (OTP) in a machine-readable and origin-bound manner. This header can enable Recipient
-Message User Agents (rMUA) to collaborate with other entities in the ecosystem to assist users'
-need to convey these OTPs to various parties that rely on their successful delivery.<a href="#section-abstract-1" class="pilcrow">¶</a></p>
+Passcodes (OTP) in a machine-readable and origin-bound manner alongside the human-readable message
+carrying that content today. Recipient Message User Agents (rMUA) can collaborate with other
+entities in the ecosystem to assist in the delivery of these codes to the context which wishes to
+verify their successful delivery.<a href="#section-abstract-1" class="pilcrow">¶</a></p>
 </section>
 <section class="note rfcEditorRemove" id="section-note.1">
       <h2 id="name-about-this-document">
@@ -1097,14 +1101,10 @@ need to convey these OTPs to various parties that rely on their successful deliv
       </h2>
 <p id="section-note.1-1">This note is to be removed before publishing as an RFC.<a href="#section-note.1-1" class="pilcrow">¶</a></p>
 <p id="section-note.1-2">
-        The latest revision of this draft can be found at <span><a href="https://example.com/LATEST">https://example.com/LATEST</a></span>.
+        The latest revision of this draft can be found at <span><a href="https://mikewest.github.io/otp-token/draft-goto-otp-token.html">https://mikewest.github.io/otp-token/draft-goto-otp-token.html</a></span>.
         Status information for this document may be found at <span><a href="https://datatracker.ietf.org/doc/draft-goto-otp-token/">https://datatracker.ietf.org/doc/draft-goto-otp-token/</a></span>.<a href="#section-note.1-2" class="pilcrow">¶</a></p>
-<p id="section-note.1-3">
-        Discussion of this document takes place on the
-        WG Working Group mailing list (<span><a href="mailto:WG@example.com">mailto:WG@example.com</a></span>),
-        which is archived at <span><a href="https://example.com/WG">https://example.com/WG</a></span>.<a href="#section-note.1-3" class="pilcrow">¶</a></p>
-<p id="section-note.1-4">Source for this draft and an issue tracker can be found at
-        <span><a href="https://github.com/USER/REPO">https://github.com/USER/REPO</a></span>.<a href="#section-note.1-4" class="pilcrow">¶</a></p>
+<p id="section-note.1-3">Source for this draft and an issue tracker can be found at
+        <span><a href="https://github.com/mikewest/otp-token">https://github.com/mikewest/otp-token</a></span>.<a href="#section-note.1-3" class="pilcrow">¶</a></p>
 </section>
 <div id="status-of-memo">
 <section id="section-boilerplate.1">
@@ -1125,7 +1125,7 @@ need to convey these OTPs to various parties that rely on their successful deliv
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 6 February 2027.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 7 February 2027.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1163,7 +1163,12 @@ need to convey these OTPs to various parties that rely on their successful deliv
             </ul>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.2">
-            <p id="section-toc.1-1.2.1" class="keepWithNext"><a href="#section-2" class="auto internal xref">2</a>.  <a href="#name-conventions-and-definitions" class="internal xref">Conventions and Definitions</a></p>
+            <p id="section-toc.1-1.2.1"><a href="#section-2" class="auto internal xref">2</a>.  <a href="#name-conventions-and-definitions" class="internal xref">Conventions and Definitions</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.2.2.1">
+                <p id="section-toc.1-1.2.2.1.1" class="keepWithNext"><a href="#section-2.1" class="auto internal xref">2.1</a>.  <a href="#name-one-time-passcode" class="internal xref">One-Time Passcode</a></p>
+</li>
+            </ul>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3">
             <p id="section-toc.1-1.3.1"><a href="#section-3" class="auto internal xref">3</a>.  <a href="#name-the-otp-token-header-field" class="internal xref">The <code>OTP-Token</code> Header Field</a></p>
@@ -1181,26 +1186,37 @@ need to convey these OTPs to various parties that rely on their successful deliv
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4">
             <p id="section-toc.1-1.4.1"><a href="#section-4" class="auto internal xref">4</a>.  <a href="#name-security-considerations" class="internal xref">Security Considerations</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4.2.1">
+                <p id="section-toc.1-1.4.2.1.1"><a href="#section-4.1" class="auto internal xref">4.1</a>.  <a href="#name-token-availability" class="internal xref"><code>token</code> Availability?</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4.2.2">
+                <p id="section-toc.1-1.4.2.2.1"><a href="#section-4.2" class="auto internal xref">4.2</a>.  <a href="#name-shouldnt-we-focus-on-more-r" class="internal xref">Shouldn't we focus on more robustly phishing-resistant authentication?</a></p>
+</li>
+            </ul>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5">
             <p id="section-toc.1-1.5.1"><a href="#section-5" class="auto internal xref">5</a>.  <a href="#name-iana-considerations" class="internal xref">IANA Considerations</a></p>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.6">
-            <p id="section-toc.1-1.6.1"><a href="#section-6" class="auto internal xref">6</a>.  <a href="#name-references" class="internal xref">References</a></p>
-<ul class="compact toc ulBare ulEmpty">
-<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.6.2.1">
-                <p id="section-toc.1-1.6.2.1.1"><a href="#section-6.1" class="auto internal xref">6.1</a>.  <a href="#name-normative-references" class="internal xref">Normative References</a></p>
+            <p id="section-toc.1-1.6.1"><a href="#section-6" class="auto internal xref">6</a>.  <a href="#name-open-questions" class="internal xref">Open Questions</a></p>
 </li>
-              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.6.2.2">
-                <p id="section-toc.1-1.6.2.2.1"><a href="#section-6.2" class="auto internal xref">6.2</a>.  <a href="#name-informative-references" class="internal xref">Informative References</a></p>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.7">
+            <p id="section-toc.1-1.7.1"><a href="#section-7" class="auto internal xref">7</a>.  <a href="#name-references" class="internal xref">References</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.7.2.1">
+                <p id="section-toc.1-1.7.2.1.1"><a href="#section-7.1" class="auto internal xref">7.1</a>.  <a href="#name-normative-references" class="internal xref">Normative References</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.7.2.2">
+                <p id="section-toc.1-1.7.2.2.1"><a href="#section-7.2" class="auto internal xref">7.2</a>.  <a href="#name-informative-references" class="internal xref">Informative References</a></p>
 </li>
             </ul>
 </li>
-          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.7">
-            <p id="section-toc.1-1.7.1"><a href="#appendix-A" class="auto internal xref"></a><a href="#name-acknowledgments" class="internal xref">Acknowledgments</a></p>
-</li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.8">
-            <p id="section-toc.1-1.8.1"><a href="#appendix-B" class="auto internal xref"></a><a href="#name-authors-addresses" class="internal xref">Authors' Addresses</a></p>
+            <p id="section-toc.1-1.8.1"><a href="#appendix-A" class="auto internal xref"></a><a href="#name-acknowledgments" class="internal xref">Acknowledgments</a></p>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.9">
+            <p id="section-toc.1-1.9.1"><a href="#appendix-B" class="auto internal xref"></a><a href="#name-authors-addresses" class="internal xref">Authors' Addresses</a></p>
 </li>
         </ul>
 </nav>
@@ -1211,49 +1227,60 @@ need to convey these OTPs to various parties that rely on their successful deliv
       <h2 id="name-introduction">
 <a href="#section-1" class="section-number selfRef">1. </a><a href="#name-introduction" class="section-name selfRef">Introduction</a>
       </h2>
-<p id="section-1-1">The mechanism defined in this document allows the mechanical processing of email-based OTPs that
-are common in the ecosystem today. This opens up a number of opportunities for collaboration in
-ways which might improve the overall security of this verification mechanism.<a href="#section-1-1" class="pilcrow">¶</a></p>
-<p id="section-1-2">Today, the expectation is that users will begin some action which requires verification (sign in,
-account creation, some high-risk transaction, etc) in one context, and then hop over to their
-email client, wait for receipt of an email containing an memorizable OTP, then hop back to the
-original context and input that code to verify the action. This is both frustrating and phishable,
-as hopping between contexts introduces many opportunities for confusion, memorizing or copy/pasting
-codes is difficult, and nothing prevents users from delivering codes to the wrong context.<a href="#section-1-2" class="pilcrow">¶</a></p>
-<p id="section-1-3"><span>[<a href="#SMS-ONE-TIME-CODES" class="cite xref">SMS-ONE-TIME-CODES</a>]</span> showed that it's possible to devise a machine-readable format for SMS-based
-OTPs that can express a clear origin binding, making it possible for automated systems to extract
-these codes and feed them into systems which can help users input them into the right context.<a href="#section-1-3" class="pilcrow">¶</a></p>
-<p id="section-1-4">This document extends that concept from SMS to email, taking advantage of the fact that an
-email-based delivery mechanism has both user-visible content and headers that are often somewhat
-complicated for users to access. The former can be used in exactly the way that it's used today,
-crafting a message for humans that aims to help them verify themselves. The latter can feed
-information to autofill systems that can directly support users' efforts to do so, while also
-encoding additional information that users would have a hard time dealing with. The additional
-information can help support risk-based evaluation systems in ways we'll discuss below.<a href="#section-1-4" class="pilcrow">¶</a></p>
+<p id="section-1-1">Email-based OTPs are critical infrastructure in the status quo. They're used for address
+verification, sign-in, authorization of high-risk transactions, and account recovery. They often
+sit underneath more robust verification mechanisms, setting a relatively low security floor.<a href="#section-1-1" class="pilcrow">¶</a></p>
+<p id="section-1-2">Today, actions which require verification through email will begin in one context, then hop to an
+email client, where users will track down the relevant email (after waiting for delivery), memorize
+a short code, hop back to the verifying context, and type it in. This flow is both frustrating and
+phishable.<a href="#section-1-2" class="pilcrow">¶</a></p>
+<p id="section-1-3"><span>[<a href="#SMS-ONE-TIME-CODES" class="cite xref">SMS-ONE-TIME-CODES</a>]</span> showed that a machine-readable, origin-bound format for SMS-based OTPs is
+deployable. Today, software can easily extract these codes and feed them into systems like
+<span>[<a href="#WEBOTP" class="cite xref">WEBOTP</a>]</span> which reduce friction only after validating the origin binding.<a href="#section-1-3" class="pilcrow">¶</a></p>
+<p id="section-1-4">This document extends that concept from SMS to email, and takes advantage of the fact that an
+email-based delivery mechanism has both user-visible content and a header section that's cumbersome
+for humans to access. The former can carry on doing what it does today: delivering a low-entropy
+code addressed to humans. The latter can carry information beyond what would be reasonable to expect
+a human to handle, which we can use to increase the entire system's robustness.<a href="#section-1-4" class="pilcrow">¶</a></p>
+<p id="section-1-5">This machine-readable format enables three improvements:<a href="#section-1-5" class="pilcrow">¶</a></p>
+<ol start="1" type="1" class="normal type-1" id="section-1-6">
+<li id="section-1-6.1">
+          <p id="section-1-6.1.1">We can reduce friction for users by allowing rMUAs to collaborate with other systems, offering
+OTPs to the requesting context without requiring users to act as the messenger.<a href="#section-1-6.1.1" class="pilcrow">¶</a></p>
+</li>
+        <li id="section-1-6.2">
+          <p id="section-1-6.2.1">We can mitigate phishing by reducing friction <em>only</em> for context matching the origin to which
+the OTP is bound. Software can perform this check more consistently than humans.<a href="#section-1-6.2.1" class="pilcrow">¶</a></p>
+</li>
+        <li id="section-1-6.3">
+          <p id="section-1-6.3.1">We can provide an additional signal about the way in which the OTP was delivered by encoding
+information in the header that humans are unlikely to process themselves. Relying parties can
+thereby distinguish codes transmitted through an origin-bound automated path from those which
+a user might have been tricked into typing into an attackers' form, enabling more nuanced risk
+assessment.<a href="#section-1-6.3.1" class="pilcrow">¶</a></p>
+</li>
+      </ol>
+<p id="section-1-7">This document defines a format and parsing rules. Work to define the interaction between rMUAs and
+the rest of the ecosystem will happen elsewhere.<a href="#section-1-7" class="pilcrow">¶</a></p>
 <div id="examples">
 <section id="section-1.1">
         <h3 id="name-examples">
 <a href="#section-1.1" class="section-number selfRef">1.1. </a><a href="#name-examples" class="section-name selfRef">Examples</a>
         </h3>
 <p id="section-1.1-1">A typical email-based OTP message could contain the following header, specifying an OTP code of
-123456, and binding that code to the origin <code>https://example.com</code>. rMUAs can collaborate with
-other user agents to pass that code on in ways that can smooth the users' path towards
-verification:<a href="#section-1.1-1" class="pilcrow">¶</a></p>
+123456, and binding that code to the origin <code>https://example.com</code>:<a href="#section-1.1-1" class="pilcrow">¶</a></p>
 <div class="lang-header sourcecode" id="section-1.1-2">
 <pre>
 OTP-Token: "123456"; origin="https://example.com"
 </pre><a href="#section-1.1-2" class="pilcrow">¶</a>
 </div>
-<p id="section-1.1-3">Beyond the traditional OTP, which is suprisingly phishable, this mechanism could also include
-an additional token, meant not for the user themselves, but for the systems which input the
-OTP code on their behalf. Given that this token is delivered out-of-band with the visible email
-content, it can be reasonable assumed to be available only when an automated system acting on the
-users' behalf has delivered the OTP. This could enable differential risk assessments to assign
-more granular levels of trust to user verifications:<a href="#section-1.1-3" class="pilcrow">¶</a></p>
+<p id="section-1.1-3">Beyond that human-readable-and-therefore-phishable code, the header can also include an additional
+token, meant not for the user themselves, but for the systems acting on their behalf. Because
+headers are not generally rendered to users without effort, presenting this token is (imperfect)
+evidence that an automated system delivered the data, enabling more nuanced risk assessment:<a href="#section-1.1-3" class="pilcrow">¶</a></p>
 <div class="lang-header sourcecode" id="section-1.1-4">
 <pre>
-OTP-Token: "123456"; origin="https://example.com"; \
-           token=:SGVsbG8sIHdvcmxkIQ==:
+OTP-Token: "123456"; origin="https://example.com"; token=:NjU0MzIx:
 </pre><a href="#section-1.1-4" class="pilcrow">¶</a>
 </div>
 </section>
@@ -1274,7 +1301,31 @@ email infrastructure.<a href="#section-2-2" class="pilcrow">¶</a></p>
 <p id="section-2-3">This document further relies on Section 3 of <span>[<a href="#STRUCTURED-FIELDS" class="cite xref">STRUCTURED-FIELDS</a>]</span> to define a number of concepts
 around parsing and syntax, including: String, Byte Sequence, Parameters, and the <code>sf-item</code> ABNF
 rule.<a href="#section-2-3" class="pilcrow">¶</a></p>
-<p id="section-2-4">The <code>serialized-origin</code> grammar is defined in Section 7.1 of <span>[<a href="#RFC6454" class="cite xref">RFC6454</a>]</span>.<a href="#section-2-4" class="pilcrow">¶</a></p>
+<p id="section-2-4">This document relies on <span>[<a href="#RFC6454" class="cite xref">RFC6454</a>]</span> for the definition of an origin, and on Section 6.2 of that
+document for its ASCII serialization. The <code>serialized-origin</code> grammar is defined in Section 7.1.<a href="#section-2-4" class="pilcrow">¶</a></p>
+<div id="one-time-passcode">
+<section id="section-2.1">
+        <h3 id="name-one-time-passcode">
+<a href="#section-2.1" class="section-number selfRef">2.1. </a><a href="#name-one-time-passcode" class="section-name selfRef">One-Time Passcode</a>
+        </h3>
+<p id="section-2.1-1">A One-Time Passcode is a tuple consisting of:<a href="#section-2.1-1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-2.1-2.1">
+            <p id="section-2.1-2.1.1"><code>code</code>: a string, containing the human-readable OTP.<a href="#section-2.1-2.1.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-2.1-2.2">
+            <p id="section-2.1-2.2.1"><code>origin</code>: an origin to which the code is bound.<a href="#section-2.1-2.2.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-2.1-2.3">
+            <p id="section-2.1-2.3.1"><code>token</code>: <code>null</code> or a byte sequence carrying a machine-readable value intended for automated
+consumption.<a href="#section-2.1-2.3.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-2.1-2.4">
+            <p id="section-2.1-2.4.1"><code>received</code>: a timestamp set by the rMUA when the OTP is received.<a href="#section-2.1-2.4.1" class="pilcrow">¶</a></p>
+</li>
+        </ul>
+</section>
+</div>
 </section>
 </div>
 <div id="otp-token-header">
@@ -1286,12 +1337,17 @@ rule.<a href="#section-2-3" class="pilcrow">¶</a></p>
 token. For example:<a href="#section-3-1" class="pilcrow">¶</a></p>
 <div class="lang-header sourcecode" id="section-3-2">
 <pre>
-OTP-Token: "123456"; origin="https://example.com"; token=:SGVsbG8sIHdvcmxkIQ==:
+OTP-Token: "123456"; origin="https://example.com"; token=:NjU0MzIx:
 </pre><a href="#section-3-2" class="pilcrow">¶</a>
 </div>
 <p id="section-3-3">This header is a Structured Field containing a String (Section 3.3.3 of <span>[<a href="#STRUCTURED-FIELDS" class="cite xref">STRUCTURED-FIELDS</a>]</span>)
 representing the OTP, along with with Parameters (Section 3.1.2 of <span>[<a href="#STRUCTURED-FIELDS" class="cite xref">STRUCTURED-FIELDS</a>]</span>)
 representing the origin to which the OTP is bound, and an optional high-entropy token.<a href="#section-3-3" class="pilcrow">¶</a></p>
+<p id="section-3-4"><code>OTP-Token</code> <span class="bcp14">MUST</span> appear at most once in a message's header section. Instances appearing in the
+header sections of MIME body parts <span class="bcp14">MUST</span> be ignored.<a href="#section-3-4" class="pilcrow">¶</a></p>
+<p id="section-3-5">Note that headers including a <code>token</code> Parameter are likely to exceed the 998/78 character
+limitations specified in Section 2.2.3 of <span>[<a href="#RFC5322" class="cite xref">RFC5322</a>]</span>, and will be folded accordingly. <a href="#parsing" class="auto internal xref">Section 3.2</a>
+specifies how that common case is to be handled.<a href="#section-3-5" class="pilcrow">¶</a></p>
 <div id="parameters">
 <section id="section-3.1">
         <h3 id="name-parameters">
@@ -1301,7 +1357,14 @@ representing the origin to which the OTP is bound, and an optional high-entropy 
 <ul class="normal">
 <li class="normal" id="section-3.1-2.1">
             <p id="section-3.1-2.1.1"><code>origin</code>: This parameter represents the origin to which the OTP is bound. Its value is a String
-containing the ASCII serialization of an origin conforming to Section 6.2 of <span>[<a href="#RFC6454" class="cite xref">RFC6454</a>]</span>.<a href="#section-3.1-2.1.1" class="pilcrow">¶</a></p>
+containing the ASCII serialization of an origin conforming to Section 6.2 of <span>[<a href="#RFC6454" class="cite xref">RFC6454</a>]</span>. This
+value <span class="bcp14">MUST</span> not be the serialization of an opaque origin ("null"), <span class="bcp14">MUST</span> be a potentially
+trustworthy origin as defined in <span>[<a href="#SECURE-CONTEXTS" class="cite xref">SECURE-CONTEXTS</a>]</span>, and <span class="bcp14">MUST</span> be in canonical form (lowercase,
+default ports omitted, ASCII-only).<a href="#section-3.1-2.1.1" class="pilcrow">¶</a></p>
+<p id="section-3.1-2.1.2">
+Note: <span>[<a href="#RFC6454" class="cite xref">RFC6454</a>]</span> and <span>[<a href="#URL" class="cite xref">URL</a>]</span>/<span>[<a href="#HTML" class="cite xref">HTML</a>]</span> do not entirely agree on origins or their serialization.
+The constraints above keep them more or less aligned for the subset of origins this document
+permits; reconciliation beyond that is well outside this document's scope.<a href="#section-3.1-2.1.2" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-3.1-2.2">
             <p id="section-3.1-2.2.1"><code>token</code>: This parameter represents a validation token associated with the OTP that's meant for
@@ -1316,60 +1379,83 @@ automated systems rather than human interaction. Its value is a Byte Sequence .<
         <h3 id="name-parsing">
 <a href="#section-3.2" class="section-number selfRef">3.2. </a><a href="#name-parsing" class="section-name selfRef">Parsing</a>
         </h3>
-<p id="section-3.2-1">OTPs are a tuple consisting of an <code>otp</code> (a string), an <code>origin</code> (a string), and an optional <code>token</code>
-(<code>null</code> or a byte sequence).<a href="#section-3.2-1" class="pilcrow">¶</a></p>
-<p id="section-3.2-2">The following algorithm describes the process of parsing and validating the <code>OTP-Token</code> header into
-an OTP object, given the header section of a message. Parsing fails if no valid OTP is available:<a href="#section-3.2-2" class="pilcrow">¶</a></p>
-<ol start="1" type="1" class="normal type-1" id="section-3.2-3">
-<li id="section-3.2-3.1">
-            <p id="section-3.2-3.1.1">If the header section contains more than one <code>OTP-Token</code> header, or does not contain any
-<code>OTP-Token</code> header, fail parsing.<a href="#section-3.2-3.1.1" class="pilcrow">¶</a></p>
+<p id="section-3.2-1">The following algorithm describes the process of parsing and validating the <code>OTP-Token</code> header into
+an One-Time Passcode object, given a <code>message</code> and <code>receipt-timestamp</code>. Parsing fails if no valid
+OTP is available:<a href="#section-3.2-1" class="pilcrow">¶</a></p>
+<ol start="1" type="1" class="normal type-1" id="section-3.2-2">
+<li id="section-3.2-2.1">
+            <p id="section-3.2-2.1.1">If <code>message</code>'s header section contains zero or more than one <code>OTP-Token</code> header, fail.<a href="#section-3.2-2.1.1" class="pilcrow">¶</a></p>
 </li>
-          <li id="section-3.2-3.2">
-            <p id="section-3.2-3.2.1">Let <code>parsed</code> be the result of parsing the header section's <code>OTP-Token</code> header as specified in
-Section 4.2 of <span>[<a href="#STRUCTURED-FIELDS" class="cite xref">STRUCTURED-FIELDS</a>]</span>, using the field's value as <code>input_bytes</code>, and a
-<code>field_type</code> of "item".<a href="#section-3.2-3.2.1" class="pilcrow">¶</a></p>
+          <li id="section-3.2-2.2">
+            <p id="section-3.2-2.2.1">Let <code>value</code> be the result of unfolding <code>message</code>'s header section's <code>OTP-Token</code> header as
+specified in Section 2.2.3 of <span>[<a href="#RFC5322" class="cite xref">RFC5322</a>]</span>.<a href="#section-3.2-2.2.1" class="pilcrow">¶</a></p>
 </li>
-          <li id="section-3.2-3.3">
-            <p id="section-3.2-3.3.1">If parsing fails, fail parsing.<a href="#section-3.2-3.3.1" class="pilcrow">¶</a></p>
+          <li id="section-3.2-2.3">
+            <p id="section-3.2-2.3.1">Let <code>parsed</code> be the result of parsing <code>value</code> as specified in Section 4.2 of
+<span>[<a href="#STRUCTURED-FIELDS" class="cite xref">STRUCTURED-FIELDS</a>]</span>, with a <code>field_type</code> of "item". If parsing <code>value</code> as a Structured Field
+fails, fail.<a href="#section-3.2-2.3.1" class="pilcrow">¶</a></p>
 </li>
-          <li id="section-3.2-3.4">
-            <p id="section-3.2-3.4.1">If <code>parsed</code>'s <code>bare_item</code> is not a String, fail parsing.<a href="#section-3.2-3.4.1" class="pilcrow">¶</a></p>
+          <li id="section-3.2-2.4">
+            <p id="section-3.2-2.4.1">If <code>parsed</code>'s <code>bare_item</code> is not a String, fail.<a href="#section-3.2-2.4.1" class="pilcrow">¶</a></p>
 </li>
-          <li id="section-3.2-3.5">
-            <p id="section-3.2-3.5.1">Fail parsing if <code>parsed</code>'s <code>parameters</code>:<a href="#section-3.2-3.5.1" class="pilcrow">¶</a></p>
+          <li id="section-3.2-2.5">
+            <p id="section-3.2-2.5.1">If <code>parsed</code>'s <code>parameters</code> contains no item whose key is "origin", fail.<a href="#section-3.2-2.5.1" class="pilcrow">¶</a></p>
+</li>
+          <li id="section-3.2-2.6">
+            <p id="section-3.2-2.6.1">Let <code>origin</code> be the value of <code>parsed</code>'s <code>parameters</code>' item whose key is "origin".<a href="#section-3.2-2.6.1" class="pilcrow">¶</a></p>
+</li>
+          <li id="section-3.2-2.7">
+            <p id="section-3.2-2.7.1">Fail if any of the following conditions are true:<a href="#section-3.2-2.7.1" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-3.2-3.5.2.1">
-                <p id="section-3.2-3.5.2.1.1">contains no item whose key is <code>origin</code><a href="#section-3.2-3.5.2.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="section-3.2-2.7.2.1">
+                <p id="section-3.2-2.7.2.1.1"><code>origin</code> is not a String<a href="#section-3.2-2.7.2.1.1" class="pilcrow">¶</a></p>
 </li>
-              <li class="normal" id="section-3.2-3.5.2.2">
-                <p id="section-3.2-3.5.2.2.1">contains an item whose key is <code>token</code> and whose value is not a Byte Sequence,<a href="#section-3.2-3.5.2.2.1" class="pilcrow">¶</a></p>
+              <li class="normal" id="section-3.2-2.7.2.2">
+                <p id="section-3.2-2.7.2.2.1"><code>origin</code> does not conform to the <code>serialized-origin</code> grammar defined in Section 7.1
+of <span>[<a href="#RFC6454" class="cite xref">RFC6454</a>]</span>.<a href="#section-3.2-2.7.2.2.1" class="pilcrow">¶</a></p>
 </li>
-              <li class="normal" id="section-3.2-3.5.2.3">
-                <p id="section-3.2-3.5.2.3.1">contains an item whose key is <code>origin</code> and whose value is not a String conforming to the
-<code>serialized-origin</code> grammar defined in Section 7.1 of <span>[<a href="#RFC6454" class="cite xref">RFC6454</a>]</span><a href="#section-3.2-3.5.2.3.1" class="pilcrow">¶</a></p>
+              <li class="normal" id="section-3.2-2.7.2.3">
+                <p id="section-3.2-2.7.2.3.1"><code>origin</code> is "null"<a href="#section-3.2-2.7.2.3.1" class="pilcrow">¶</a></p>
+</li>
+              <li class="normal" id="section-3.2-2.7.2.4">
+                <p id="section-3.2-2.7.2.4.1"><code>origin</code> is not canonical, per <a href="#parameters" class="auto internal xref">Section 3.1</a>.<a href="#section-3.2-2.7.2.4.1" class="pilcrow">¶</a></p>
 </li>
             </ul>
 </li>
-          <li id="section-3.2-3.6">
-            <p id="section-3.2-3.6.1">Let <code>result</code> be a new OTP whose:<a href="#section-3.2-3.6.1" class="pilcrow">¶</a></p>
+          <li id="section-3.2-2.8">
+            <p id="section-3.2-2.8.1">Let <code>token</code> be <code>null</code>.<a href="#section-3.2-2.8.1" class="pilcrow">¶</a></p>
+</li>
+          <li id="section-3.2-2.9">
+            <p id="section-3.2-2.9.1">If <code>parsed</code>'s <code>parameters</code> contains an item whose key is "token":<a href="#section-3.2-2.9.1" class="pilcrow">¶</a></p>
+<ol start="1" type="1" class="normal type-1" id="section-3.2-2.9.2">
+<li id="section-3.2-2.9.2.1">
+                <p id="section-3.2-2.9.2.1.1">Fail if its value is not a Byte Sequence.<a href="#section-3.2-2.9.2.1.1" class="pilcrow">¶</a></p>
+</li>
+              <li id="section-3.2-2.9.2.2">
+                <p id="section-3.2-2.9.2.2.1">Set <code>token</code> to its value.<a href="#section-3.2-2.9.2.2.1" class="pilcrow">¶</a></p>
+</li>
+            </ol>
+</li>
+          <li id="section-3.2-2.10">
+            <p id="section-3.2-2.10.1">Return a new One-Time Passcode whose:<a href="#section-3.2-2.10.1" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-3.2-3.6.2.1">
-                <p id="section-3.2-3.6.2.1.1"><code>otp</code> is <code>parsed</code>'s <code>bare_item</code><a href="#section-3.2-3.6.2.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="section-3.2-2.10.2.1">
+                <p id="section-3.2-2.10.2.1.1"><code>code</code> is <code>parsed</code>'s <code>bare_item</code><a href="#section-3.2-2.10.2.1.1" class="pilcrow">¶</a></p>
 </li>
-              <li class="normal" id="section-3.2-3.6.2.2">
-                <p id="section-3.2-3.6.2.2.1"><code>origin</code> is the value of the item in <code>parsed</code>'s <code>parameters</code> whose key is <code>origin</code><a href="#section-3.2-3.6.2.2.1" class="pilcrow">¶</a></p>
+              <li class="normal" id="section-3.2-2.10.2.2">
+                <p id="section-3.2-2.10.2.2.1"><code>origin</code> is <code>origin</code><a href="#section-3.2-2.10.2.2.1" class="pilcrow">¶</a></p>
 </li>
-              <li class="normal" id="section-3.2-3.6.2.3">
-                <p id="section-3.2-3.6.2.3.1"><code>token</code> is the value of the item in <code>parsed</code>'s <code>parameters</code> whose key is <code>token</code>, or <code>null</code>
-if no such item is present.<a href="#section-3.2-3.6.2.3.1" class="pilcrow">¶</a></p>
+              <li class="normal" id="section-3.2-2.10.2.3">
+                <p id="section-3.2-2.10.2.3.1"><code>token</code> is <code>token</code><a href="#section-3.2-2.10.2.3.1" class="pilcrow">¶</a></p>
+</li>
+              <li class="normal" id="section-3.2-2.10.2.4">
+                <p id="section-3.2-2.10.2.4.1"><code>received</code> is <code>receipt-timestamp</code><a href="#section-3.2-2.10.2.4.1" class="pilcrow">¶</a></p>
 </li>
             </ul>
-</li>
-          <li id="section-3.2-3.7">
-            <p id="section-3.2-3.7.1">Return <code>result</code>.<a href="#section-3.2-3.7.1" class="pilcrow">¶</a></p>
 </li>
         </ol>
+<p id="section-3.2-3">Note: <span>[<a href="#STRUCTURED-FIELDS" class="cite xref">STRUCTURED-FIELDS</a>]</span> has no concept of header folding. The ordering of steps 2 and 3 above is
+therefore necessary to enable proper parsing of message headers.<a href="#section-3.2-3" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="syntax">
@@ -1393,6 +1479,32 @@ otp-token = sf-item
 <a href="#section-4" class="section-number selfRef">4. </a><a href="#name-security-considerations" class="section-name selfRef">Security Considerations</a>
       </h2>
 <p id="section-4-1">TODO. Probably something about DKIM?<a href="#section-4-1" class="pilcrow">¶</a></p>
+<div id="token-availability">
+<section id="section-4.1">
+        <h3 id="name-token-availability">
+<a href="#section-4.1" class="section-number selfRef">4.1. </a><a href="#name-token-availability" class="section-name selfRef"><code>token</code> Availability?</a>
+        </h3>
+<p id="section-4.1-1">The <code>token</code> value is a bearer token. Its usefulness rests entirely upon its general invisibility to
+humans, meaning that a user tricked into inputing an OTP will not be able to easily hand it over.<a href="#section-4.1-1" class="pilcrow">¶</a></p>
+<p id="section-4.1-2">While this seems accurate, it is not impossible to overcome. Users could be socially engineered into
+accessing the message headers via an rMUA's "show original" affordance. Or they could be convinced
+to forward the email to an attacker, headers and all. Likewise, the <code>token</code> is only as secure as the
+mailbox itself.<a href="#section-4.1-2" class="pilcrow">¶</a></p>
+<p id="section-4.1-3">In short, <code>token</code> can raise the bar for an attacker, but it does not absolutely prevent phishing.<a href="#section-4.1-3" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="shouldnt-we-focus-on-more-robustly-phishing-resistant-authentication">
+<section id="section-4.2">
+        <h3 id="name-shouldnt-we-focus-on-more-r">
+<a href="#section-4.2" class="section-number selfRef">4.2. </a><a href="#name-shouldnt-we-focus-on-more-r" class="section-name selfRef">Shouldn't we focus on more robustly phishing-resistant authentication?</a>
+        </h3>
+<p id="section-4.2-1">Authentication mechanisms like federation and <span>[<a href="#WEBAUTHN" class="cite xref">WEBAUTHN</a>]</span> are clearly the directions in which the
+ecosystem should move. Improvements to OTP delivery are not arguments in the other direction. Still,
+it's important to recognize that email verification often serves as a last-resort fallback mechanism
+for account recovery. This document's proposal aims only to create low-cost opportunities to
+mitigate some of that validation path's inherent risks.<a href="#section-4.2-1" class="pilcrow">¶</a></p>
+</section>
+</div>
 </section>
 </div>
 <div id="iana-considerations">
@@ -1424,15 +1536,38 @@ following entry:<a href="#section-5-1" class="pilcrow">¶</a></p>
       </ul>
 </section>
 </div>
-<div id="sec-combined-references">
+<div id="open-questions">
 <section id="section-6">
+      <h2 id="name-open-questions">
+<a href="#section-6" class="section-number selfRef">6. </a><a href="#name-open-questions" class="section-name selfRef">Open Questions</a>
+      </h2>
+<ol start="1" type="1" class="normal type-1" id="section-6-1">
+<li id="section-6-1.1">
+          <p id="section-6-1.1.1">Is specifying a single <code>origin</code> enough? Do we need scoping rules to tie OTPs to multiple
+origins? Sites rather than origins?<a href="#section-6-1.1.1" class="pilcrow">¶</a></p>
+</li>
+        <li id="section-6-1.2">
+          <p id="section-6-1.2.1">Rather than relying on the relying party to examine the <code>received</code> timestamp, should we offer a
+<code>ttl</code>/<code>expires</code> Parameter after which the automated system would refuse to offer the OTP?<a href="#section-6-1.2.1" class="pilcrow">¶</a></p>
+</li>
+        <li id="section-6-1.3">
+          <p id="section-6-1.3.1">Should we try to create tighter checks for the OTP's specified origin? That is, should we only
+accept origin bindings that can be authenticated via DKIM/DMARC?<a href="#section-6-1.3.1" class="pilcrow">¶</a></p>
+</li>
+      </ol>
+<p id="section-6-2">And, of course, we should bikeshed the naming. <code>OTP-Token</code>, <code>One-Time-Passcode</code>,
+<code>Super-Secret-Thing-That-Humans-Should-Not-Read</code>, etc.<a href="#section-6-2" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="sec-combined-references">
+<section id="section-7">
       <h2 id="name-references">
-<a href="#section-6" class="section-number selfRef">6. </a><a href="#name-references" class="section-name selfRef">References</a>
+<a href="#section-7" class="section-number selfRef">7. </a><a href="#name-references" class="section-name selfRef">References</a>
       </h2>
 <div id="sec-normative-references">
-<section id="section-6.1">
+<section id="section-7.1">
         <h3 id="name-normative-references">
-<a href="#section-6.1" class="section-number selfRef">6.1. </a><a href="#name-normative-references" class="section-name selfRef">Normative References</a>
+<a href="#section-7.1" class="section-number selfRef">7.1. </a><a href="#name-normative-references" class="section-name selfRef">Normative References</a>
         </h3>
 <dl class="references">
 <dt id="RFC2119">[RFC2119]</dt>
@@ -1455,22 +1590,42 @@ following entry:<a href="#section-5-1" class="pilcrow">¶</a></p>
         <dd>
 <span class="refAuthor">Leiba, B.</span>, <span class="refTitle">"Ambiguity of Uppercase vs Lowercase in RFC 2119 Key Words"</span>, <span class="seriesInfo">BCP 14</span>, <span class="seriesInfo">RFC 8174</span>, <span class="seriesInfo">DOI 10.17487/RFC8174</span>, <time datetime="2017-05" class="refDate">May 2017</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc8174">https://www.rfc-editor.org/rfc/rfc8174</a>&gt;</span>. </dd>
 <dd class="break"></dd>
+<dt id="SECURE-CONTEXTS">[SECURE-CONTEXTS]</dt>
+        <dd>
+<span class="refAuthor">West, M.</span>, <span class="refTitle">"Secure Contexts"</span>, <span>&lt;<a href="https://w3c.github.io/webappsec-secure-contexts/">https://w3c.github.io/webappsec-secure-contexts/</a>&gt;</span>. </dd>
+<dd class="break"></dd>
 <dt id="STRUCTURED-FIELDS">[STRUCTURED-FIELDS]</dt>
-      <dd>
+        <dd>
 <span class="refAuthor">Nottingham, M.</span> and <span class="refAuthor">P. Kamp</span>, <span class="refTitle">"Structured Field Values for HTTP"</span>, <span class="seriesInfo">RFC 9651</span>, <span class="seriesInfo">DOI 10.17487/RFC9651</span>, <time datetime="2024-09" class="refDate">September 2024</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc9651">https://www.rfc-editor.org/rfc/rfc9651</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="WEBAUTHN">[WEBAUTHN]</dt>
+      <dd>
+<span class="refTitle">"Web Authentication: An API for accessing Public Key Credentials"</span>, <span>&lt;<a href="https://w3c.github.io/webauthn/">https://w3c.github.io/webauthn/</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 </dl>
 </section>
 </div>
 <div id="sec-informative-references">
-<section id="section-6.2">
+<section id="section-7.2">
         <h3 id="name-informative-references">
-<a href="#section-6.2" class="section-number selfRef">6.2. </a><a href="#name-informative-references" class="section-name selfRef">Informative References</a>
+<a href="#section-7.2" class="section-number selfRef">7.2. </a><a href="#name-informative-references" class="section-name selfRef">Informative References</a>
         </h3>
 <dl class="references">
+<dt id="HTML">[HTML]</dt>
+        <dd>
+<span class="refTitle">"HTML Standard"</span>, <span>&lt;<a href="https://html.spec.whatwg.org/">https://html.spec.whatwg.org/</a>&gt;</span>. </dd>
+<dd class="break"></dd>
 <dt id="SMS-ONE-TIME-CODES">[SMS-ONE-TIME-CODES]</dt>
-      <dd>
+        <dd>
 <span class="refAuthor">O'Connor, T.</span> and <span class="refAuthor">S. Goto</span>, <span class="refTitle">"Origin-bound one-time codes delivered via SMS"</span>, <time datetime="2021" class="refDate">2021</time>, <span>&lt;<a href="https://wicg.github.io/sms-one-time-codes/">https://wicg.github.io/sms-one-time-codes/</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="URL">[URL]</dt>
+        <dd>
+<span class="refTitle">"URL Standard"</span>, <span>&lt;<a href="https://url.spec.whatwg.org/">https://url.spec.whatwg.org/</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="WEBOTP">[WEBOTP]</dt>
+      <dd>
+<span class="refAuthor">Goto, S.</span>, <span class="refTitle">"WebOTP API"</span>, <span>&lt;<a href="https://wicg.github.io/web-otp/">https://wicg.github.io/web-otp/</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 </dl>
 </section>
