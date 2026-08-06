@@ -285,15 +285,15 @@ mitigate some of that validation path's inherent risks.
 
 # IANA Considerations
 
-IANA is asked to update the Provisional Message Header Field Names registry {{RFC5322}} with the
+IANA is asked to update the Provisional Message Header Field Names registry {{RFC3864}} with the
 following entry:
 
 * Header Field Name: OTP-Token
-* Template:
 * Protocol: mail
-* Status:
-* Trace:
+* Status: provisional
+* Author/Change controller: Mike West
 * Reference: This document
+* Related information: None
 
 
 # Open Questions
