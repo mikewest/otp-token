@@ -93,58 +93,46 @@ verify their successful delivery.
 
 # Introduction
 
-Email-based OTPs are critical infrastructure in the status quo. They're used for address
-verification, sign-in, authorization of high-risk transactions, and account recovery. They often
-sit underneath more robust verification mechanisms, setting a relatively low security floor.
+One-time passcodes delivered via email are widely used as part of flows which require verification
+of a user's contact information. Sign-in/-up flows, reauth for high-risk transactions, account
+recovery, and so on all might reasonably rely on verifying a user's access to a particular email
+address by sending a secret code to that address, and waiting for the user to prove that they know
+what code was sent by typing it into some other context.
 
-Today, actions which require verification through email will begin in one context, then hop to an
-email client, where users will track down the relevant email (after waiting for delivery), memorize
-a short code, hop back to the verifying context, and type it in. This flow is both frustrating and
-phishable.
+Today, actions which require verification through email will begin in one context (say, a sign-in
+form on a website), but require users to hop to another context (their rMUA) to track down the
+relevant email after waiting for delivery, memorize a short code, and then hop back to the
+verifying context to type it in. This flow is frustrating, as context-switching leads to confusion
+and failure. It's also phishable, as users can be tricked into typing a code meant for a trusted
+context into an attacker-controlled site.
 
-{{SMS-ONE-TIME-CODES}} showed that a machine-readable, origin-bound format for SMS-based OTPs is
-deployable. Today, software can easily extract these codes and feed them into systems like
-{{WEBOTP}} which reduce friction only after validating the origin binding.
+{{SMS-ONE-TIME-CODES}} showed that a machine-readable, origin-bound format for SMS-based OTPs can
+reduce both frustration and phishing by making it possible for software to easily extract OTPs
+and feed them into systems like {{WEBOTP}} or a platform's autofill mechanism. This approach can
+dramatically reduce the friction users experience, _only_ in those cases where the context into
+which the code is delivered can be verified to be the destination to which the code has asserted
+a binding. This doesn't prevent phishing as users can still be tricked into typing the code
+manually, but it's a substantial improvement in the system's general security posture.
 
-This document extends that concept from SMS to email, and takes advantage of the fact that an
-email-based delivery mechanism has both user-visible content and a header section that's cumbersome
-for humans to access. The former can carry on doing what it does today: delivering a low-entropy
-code addressed to humans. The latter can carry information beyond what would be reasonable to expect
-a human to handle, which we can use to increase the entire system's robustness.
+Learning from that experience, this document proposes two things: first, we can extend the core
+concept of a standardized delivery format from SMS to email, taking advantage of email's distinction
+between headers and user-visible content to do so. Second, we suggest that the header can carry 
+information that's supplemental to the short OTP meant for human consumption, and that such
+information might create additional opportunities to improve the entire system's robustness.
 
-This machine-readable format enables three improvements:
-
-1.  We can reduce friction for users by allowing rMUAs to collaborate with other systems, offering
-    OTPs to the requesting context without requiring users to act as the messenger.
-
-2.  We can mitigate phishing by reducing friction _only_ for context matching the origin to which
-    the OTP is bound. Software can perform this check more consistently than humans.
-
-3.  We can provide an additional signal about the way in which the OTP was delivered by encoding
-    information in the header that humans are unlikely to process themselves. Relying parties can
-    thereby distinguish codes transmitted through an origin-bound automated path from those which
-    a user might have been tricked into typing into an attackers' form, enabling more nuanced risk
-    assessment.
-
-This document defines a format and parsing rules. Work to define the interaction between rMUAs and
-the rest of the ecosystem will happen elsewhere.
+It's important to note, however, that these proposals address only one piece of a larger system,
+allowing automated extraction of OTPs, but leaving important, platform-specific details of their
+integration with the rest of the system out of scope. Those mechanisms will be defined elsewhere
+(e.g. HTML defines `<input autocomplete="one-time-code">`, iOS defines `NSTextInput` with
+`.oneTimeCode`, and so on).
 
 ## Examples
 
-A typical email-based OTP message could contain the following header, specifying an OTP code of
-123456, and binding that code to the origin `https://example.com`:
+A typical email-based OTP message could contain a header like the following, specifying an OTP code
+of 123456, and binding that code to the origin `https://example.com`:
 
 ~~~header
-OTP-Token: "123456"; origin="https://example.com"
-~~~
-
-Beyond that human-readable-and-therefore-phishable code, the header can also include an additional
-token, meant not for the user themselves, but for the systems acting on their behalf. Because
-headers are not generally rendered to users without effort, presenting this token is (imperfect)
-evidence that an automated system delivered the data, enabling more nuanced risk assessment:
-
-~~~header
-OTP-Token: "123456"; origin="https://example.com"; token=:NjU0MzIx:
+OTP: "123456"; origin="https://example.com"
 ~~~
 
 
@@ -282,6 +270,12 @@ ecosystem should move. Improvements to OTP delivery are not arguments in the oth
 it's important to recognize that email verification often serves as a last-resort fallback mechanism
 for account recovery. This document's proposal aims only to create low-cost opportunities to
 mitigate some of that validation path's inherent risks.
+
+
+## Origin Binding {#origin-binding}
+
+TODO: Say something here about identifying the initiating context's origin and how it'll all be
+platform-specific.
 
 
 # IANA Considerations
