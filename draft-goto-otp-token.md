@@ -116,7 +116,7 @@ manually, but it's a substantial improvement in the system's general security po
 
 Learning from that experience, this document proposes two things: first, we can extend the core
 concept of a standardized delivery format from SMS to email, taking advantage of email's distinction
-between headers and user-visible content to do so. Second, we suggest that the header can carry 
+between headers and user-visible content to do so. Second, we suggest that the header can carry
 information that's supplemental to the short OTP meant for human consumption, and that such
 information might create additional opportunities to improve the entire system's robustness.
 
