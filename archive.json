@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-10-27T04:14:23.429026+00:00",
+  "timestamp": "2026-10-29T04:55:38.962484+00:00",
   "repo": "mikewest/otp-token",
   "labels": [
     {
@@ -49,6 +49,23 @@
       "color": "ffffff"
     }
   ],
-  "issues": [],
+  "issues": [
+    {
+      "number": 1,
+      "id": "I_kwDOTuzdXs8AAAABaVUzpQ",
+      "title": "Does Gmail read OTP-Token today, and what makes a sender eligible for the Copy code card?",
+      "url": "https://github.com/mikewest/otp-token/issues/1",
+      "state": "OPEN",
+      "author": "VXNCXNX",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "We added `OTP-Token: \"123456\"; origin=\"https://preuve.ai\"` to our sign-in emails (Amazon SES, header arrives byte for byte, SPF/DKIM/DMARC pass).\n\nGmail (Android, iOS, web) never shows the Copy code card for us. Tested on 2026-10-27:\n- 4 and 6 digit codes, with and without OTP-Token\n- a minimal code-only email\n- X's own verification email resent byte for byte from our domain, only the code changed (X's original gets the card and has no OTP-Token header)\n- a fresh code-only sender address\n\nSame content gets the card from X and not from us, so it looks sender-based.\n\nQuestions:\n1. Does Gmail consume OTP-Token yet, or is it planned?\n2. Is there a sender eligibility rule (reputation, volume, registration) senders can meet?\n3. Should OTP-Token origin binding require DKIM alignment (Open Question 3)? We would sign it if that is the plan.\n\nHappy to run tests if useful.",
+      "createdAt": "2026-10-27T15:18:58Z",
+      "updatedAt": "2026-10-27T17:27:47Z",
+      "closedAt": null,
+      "comments": []
+    }
+  ],
   "pulls": []
 }
