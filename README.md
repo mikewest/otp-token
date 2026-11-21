@@ -13,7 +13,7 @@ This is the working area for the individual Internet-Draft, "The `OTP-Token` Ema
 ## Contributing
 
 See the
-[guidelines for contributions](https://github.com/mikewest/otp-token/blob//CONTRIBUTING.md).
+[guidelines for contributions](https://github.com/mikewest/otp-token/blob/main/CONTRIBUTING.md).
 
 The contributing file also has tips on how to make contributions, if you
 don't already know how to do that.
