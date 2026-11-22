@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-11-19T06:33:14.948907+00:00",
+  "timestamp": "2026-11-22T05:44:38.998042+00:00",
   "repo": "mikewest/otp-token",
   "labels": [
     {
@@ -65,7 +65,50 @@
       "updatedAt": "2026-10-27T17:27:47Z",
       "closedAt": null,
       "comments": []
+    },
+    {
+      "number": 2,
+      "id": "I_kwDOTuzdXs8AAAABhMvxWQ",
+      "title": "Bad info in CONTRIBUTING.md",
+      "url": "https://github.com/mikewest/otp-token/issues/2",
+      "state": "OPEN",
+      "author": "shelvacu",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "https://github.com/mikewest/otp-token/blob/a561d76d3323a16bc0c6bb8e411f3eeb4dcd111f/CONTRIBUTING.md?plain=1#L45-L48\n\n`research.telcordia.com` has no `MX` record, and `ftp.research.telcordia.com` has no `A` or `AAAA` records. Clearly, discussion does not happen on this nonexistent mailing list.",
+      "createdAt": "2026-11-21T01:40:59Z",
+      "updatedAt": "2026-11-21T01:42:08Z",
+      "closedAt": null,
+      "comments": []
     }
   ],
-  "pulls": []
+  "pulls": [
+    {
+      "number": 3,
+      "id": "PR_kwDOTuzdXs8AAAABQzztrw",
+      "title": "Fix contributions link in README.md",
+      "url": "https://github.com/mikewest/otp-token/pull/3",
+      "state": "OPEN",
+      "author": "shelvacu",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2026-11-21T01:45:43Z",
+      "updatedAt": "2026-11-21T01:45:43Z",
+      "baseRepository": "mikewest/otp-token",
+      "baseRefName": "main",
+      "baseRefOid": "a561d76d3323a16bc0c6bb8e411f3eeb4dcd111f",
+      "headRepository": "shelvacu/otp-token",
+      "headRefName": "patch-1",
+      "headRefOid": "413ca219429535b82b99ab97731216df077db0ac",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": []
+    }
+  ]
 }
